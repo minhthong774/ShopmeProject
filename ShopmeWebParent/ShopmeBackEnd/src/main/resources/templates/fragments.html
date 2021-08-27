@@ -26,6 +26,9 @@
     <script type="text/javascript" th:src="@{/js/common.js}" defer></script>
   </head>
   <body>
+    <div th:fragment="footer" class="text-center m-3">
+      <p>Shopme Control Panel - Copyright &copy; Shopme</p>
+    </div>
     <th
       th:fragment="column_link(fieldName, columnLabel, removeTag)"
       th:remove="${removeTag}"
