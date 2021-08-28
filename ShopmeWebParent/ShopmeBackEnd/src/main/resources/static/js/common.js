@@ -4,7 +4,7 @@ $(document).ready(function () {
     document.logoutForm.submit();
   });
 
-  customizeDropDownMenu();
+  //customizeDropDownMenu();
 });
 
 function customizeDropDownMenu() {

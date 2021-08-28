@@ -23,7 +23,7 @@ public class ShopmeUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<Role> roles = user.getRoles();
-		List<SimpleGrantedAuthority> authories = new ArrayList<SimpleGrantedAuthority>();
+		List<SimpleGrantedAuthority> authories = new ArrayList<>();
 		
 		for(Role role:roles) {
 			authories.add(new SimpleGrantedAuthority(role.getName()));
