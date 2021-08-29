@@ -84,6 +84,7 @@
               <img
                 th:if="${category.image != null}"
                 style="width: 100px"
+                th:src="@{${category.imagePath}}"
               />
             </td>
             <td class="hideable-column">[[${category.name}]]</td>
