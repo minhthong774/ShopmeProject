@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 @Service
@@ -23,6 +24,10 @@ public class CategoryService {
         return (List<Category>) categoryRepo.findAll(Sort.by("name").ascending());
     }
 
+    public Category save(Category category){
+        return categoryRepo.save(category);
+    }
+
     public List<Category> listCategoriesUsedInform(){
         List<Category> categoriesUsedInForm = new ArrayList<>();
 
@@ -30,18 +35,11 @@ public class CategoryService {
 
         for (Category category : categoriesInDB){
             if(category.getParent()==null){
-                categoriesUsedInForm.add(new Category(category.getName()));
+                categoriesUsedInForm.add(Category.copyIdAndName(category));
 
                 Set<Category> children = category.getChildren();
 
                 listChildren(categoriesUsedInForm, category, 0);
-
-                // for(Category subCategory : children) {
-                //     String name = "--" + subCategory.getName();
-                //     categoriesUsedInForm.add(new Category(name));
-
-                //     listChildren(categoriesUsedInForm, subCategory, 1);
-                // }
             }
         }
 
@@ -59,7 +57,7 @@ public class CategoryService {
             }
             name  += subCategory.getName();
 
-            categoriesUsedInForm.add(new Category(name));
+            categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
             listChildren(categoriesUsedInForm, subCategory, newSubLevel);
 
