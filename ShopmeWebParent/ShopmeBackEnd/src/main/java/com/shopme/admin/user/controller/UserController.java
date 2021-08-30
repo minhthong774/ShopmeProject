@@ -126,7 +126,7 @@ public class UserController {
 			model.addAttribute("listRoles", listRoles);
 			model.addAttribute("pageTitle", "Edit User (ID: " + id + ")");
 			
-			return "user_form";			
+			return "users/user_form";			
 		} catch(UserNotFoundException ex) {
 			redirectAttributes.addFlashAttribute("message", ex.getMessage());
 			return "redirect:/users";

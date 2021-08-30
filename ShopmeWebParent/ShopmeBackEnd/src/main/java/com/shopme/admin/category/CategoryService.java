@@ -2,13 +2,17 @@ package com.shopme.admin.category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
+import com.shopme.admin.user.UserNotFoundException;
 import com.shopme.common.entity.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javassist.compiler.ast.CallExpr;
 
 
 @Service
@@ -89,6 +93,41 @@ public class CategoryService {
             listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, newSubLevel);
 
         }
+    }
+
+    public Category get(Integer id) throws CategoryNotFoundException {
+		try {
+			return categoryRepo.findById(id).get();
+		}catch(NoSuchElementException ex) {
+			throw new CategoryNotFoundException("Could not find any category with ID " + id);
+		}
+	}
+
+    public String checkUnique(Integer id, String name, String alias){
+        boolean isCreatingNew = (id==null||id==0);
+        
+        Category categoryByName = categoryRepo.findByName(name);
+
+        if(isCreatingNew){
+            if(categoryByName!=null){
+                return "DuplicateName";
+            } else{
+                Category categoryByAlias = categoryRepo.findByAlias(alias);
+                if(categoryByAlias != null){
+                    return "DuplicateAlias";
+                }
+            }
+        } else{
+            if(categoryByName != null && categoryByName.getId() != id){
+                return "DuplicateName";
+            }
+            Category categoryByAlias = categoryRepo.findByAlias(alias);
+            if(categoryByAlias!=null&&categoryByAlias.getId()!=id){
+                return "DuplicateAlias";
+            }
+        }
+
+        return "OK";
     }
 
 }

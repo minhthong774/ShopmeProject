@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -90,6 +89,24 @@ public class CategoryRepositoryTests {
     public void testListRootCategories(){
         List<Category> rootCategories = repo.findRootCategories();
         rootCategories.forEach(cat->System.out.println(cat.getName()));
+    }
+
+    @Test 
+    public void testFindByName(){
+        String name = "Computers";
+        Category category = repo.findByName(name);
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(name);
+    }
+
+    @Test
+    public void testFindByAlias(){
+        String alias="Electronics";
+        Category category = repo.findByAlias(alias);
+
+        assertThat(category).isNotNull();
+        assertThat(category.getName()).isEqualTo(alias);
     }
 
 }
