@@ -15,8 +15,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 @Service
 @Transactional
 public class CategoryService {
@@ -157,6 +155,19 @@ public class CategoryService {
 
         sortedChildren.addAll(children);
         return sortedChildren;
+    }
+
+    public void updateCategoryEnabledStatus(Integer id, boolean enabled){
+        categoryRepo.updateEnabledStatus(id, enabled);
+    }
+
+    public void delete(Integer id) throws CategoryNotFoundException{
+        Long countById = categoryRepo.countById(id);
+        if(countById == null || countById == 0){
+            throw new CategoryNotFoundException("Could not find any category with ID " + id);
+        }
+
+        categoryRepo.deleteById(id);
     }
 
 }
