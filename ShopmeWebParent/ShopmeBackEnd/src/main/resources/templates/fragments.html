@@ -30,12 +30,12 @@
       <p>Shopme Control Panel - Copyright &copy; Shopme</p>
     </div>
     <th
-      th:fragment="column_link(fieldName, columnLabel, removeTag)"
+      th:fragment="column_link(moduleURL, fieldName, columnLabel, removeTag)"
       th:remove="${removeTag}"
     >
       <a
         class="text-white"
-        th:href="@{'/users/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"
+        th:href="@{${moduleURL} + '/page/' + ${currentPage} + '?sortField=' + ${fieldName} + '&sortDir=' + ${sortField != fieldName ? sortDir : reverseSortDir} + ${keyword != null ? '&keyword=' + keyword : ''}}"
       >
         [[${columnLabel}]]
       </a>
@@ -52,33 +52,37 @@
     >
       [[${label}]]
     </a>
-    <div th:fragment="category_status" th:remove="tag">
+    <div th:fragment="status(enabled, entityName, entityURL)" th:remove="tag">
       <a
-        th:if="${category.enabled == true}"
+        th:if="${enabled == true}"
         class="fas fa-check-circle fa-2x icon-green"
-        th:href="@{'/categories/' + ${category.id} + '/enabled/false'}"
-        title="Disable this category"
+        th:href="@{${entityURL} + '/enabled/false'}"
+        title="'Disable this' + ${entityName}"
       ></a>
       <a
-        th:if="${category.enabled == false}"
+        th:if="${enabled == false}"
         class="fas fa-circle fa-2x icon-dark"
-        th:href="@{'/categories/' + ${category.id} + '/enabled/true'}"
-        title="Enable this category"
+        th:href="@{${entityURL} + '/enabled/true'}"
+        title="'Enable this' + ${entityName}"
       ></a>
     </div>
-    <div th:fragment="category_actions" th:remove="tag">
+    <div th:fragment="edit(entityName, editURL)" th:remove="tag">
       <a
         class="fas fa-edit fa-2x icon-green"
-        th:href="@{'/categories /edit/'+${category.id}}"
-        title="Edit this category"
+        th:href="@{${editURL}}"
+        th:title="'Edit this' + ${entityName}"
       ></a>
-      &nbsp;
-      <th:block th:if="${category.hasChildren == false}">
+    </div>
+    <div
+      th:fragment="delete(entityName, deleteURL, visible, id)"
+      th:remove="tag"
+    >
+      <th:block th:if="${visible}">
         <a
           class="fas fa-trash fa-2x icon-dark link-delete"
-          th:href="@{'/categories/delete/' + ${category.id}}"
-          th:entityId="${category.id}"
-          title="Delete this category"
+          th:href="@{${deleteURL}}"
+          th:entityId="${id}"
+          th:title="'Delete this' + ${entityName}"
         ></a>
       </th:block>
     </div>
@@ -140,21 +144,30 @@
       </div>
     </div>
 
-    <div th:fragment="search_form(moduleURL)">
-			<form th:action="@{${moduleURL}}" class="form-inline m-3">
-				<input type="hidden" name="sortField" th:value="${sortField}"/>
-				<input type="hidden" name="sortDir" th:value="${sortDir}"/>
-				Filtter: &nbsp;
-				<input type="search" name="keyword" th:value="${keyword}" class="form-control" required/>
-				&nbsp;&nbsp;
-				<button type="submit" class="btn btn-primary">
-					<i class="fas fa-search"></i>
-				</button>
-				&nbsp;&nbsp;
-				<button type="button" class="btn btn-secondary" onclick="clearFilter()">
-					<i class="fas fa-eraser"></i>
-				</button>		
-			</form>
-		<div>
+    <div th:fragment="search_form_and_message(moduleURL)">
+      <form th:action="@{${moduleURL}}" class="form-inline m-3">
+        <input type="hidden" name="sortField" th:value="${sortField}" />
+        <input type="hidden" name="sortDir" th:value="${sortDir}" />
+        Filtter: &nbsp;
+        <input
+          type="search"
+          name="keyword"
+          th:value="${keyword}"
+          class="form-control"
+          required
+        />
+        &nbsp;&nbsp;
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-search"></i>
+        </button>
+        &nbsp;&nbsp;
+        <button type="button" class="btn btn-secondary" onclick="clearFilter()">
+          <i class="fas fa-eraser"></i>
+        </button>
+      </form>
+      <div th:if="${message != null}" class="alert alert-success text-center">
+        [[${message}]]
+      </div>
+    </div>
   </body>
 </html>
