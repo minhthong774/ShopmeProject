@@ -41,11 +41,15 @@ public class CategoryController {
 
         String reverseSortDir=sortDir.equals("asc")?"desc":"asc";
 
+        long startCount = (pageNum - 1) * CategoryService.ROOT_CATEGORIES_PER_PAGE + 1;
+		long endCount = startCount + CategoryService.ROOT_CATEGORIES_PER_PAGE -1;
         model.addAttribute("totalPages", pageInfo.getTotalPages());
         model.addAttribute("totalItems", pageInfo.getTotalElements());
         model.addAttribute("currentPage", pageNum);
         model.addAttribute("sortField", "name");
         model.addAttribute("sortDir", sortDir);
+		model.addAttribute("startCount", startCount);
+		model.addAttribute("endCount", endCount);
 
         model.addAttribute("listCategories", listCategories);
         model.addAttribute("reverseSortDir", reverseSortDir);
