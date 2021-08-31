@@ -112,30 +112,7 @@
 		
 		</div>
 		
-		<div class="text-center m-1" th:if="${totalItems>0}">
-			<span>Showing users # [[${startCount}]] to [[${endCount}]] of [[${totalItems}]]</span>
-		</div>
-		<div class="text-center m-1" th:unless="${totalItems>0}">
-			<span>No users found</span>
-		</div>
-		
-		<div th:if="${totalPages > 1}">
-			<nav aria-label="Page navigation example">
-			  <ul class="pagination justify-content-center flex-wrap">
-			  	<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><th th:replace="fragments::page_link(1, 'First')"></li>
-			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}"><th th:replace="fragments::page_link(${currentPage-1}, 'Previous')"></li>
-			    
-			    <li th:class="${currentPage != i ? 'page-item' : 'page-item active'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
-			    	<th th:replace="fragments::page_link(${i}, ${i})">
-			    </li>
-			    
-			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-			    	<th th:replace="fragments::page_link(${currentPage+1}, 'Next')">
-			    </li>
-			  	<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}"><th th:replace="fragments::page_link(${totalPages}, 'Last')"></li>
-			  </ul>
-			</nav>
-		</div>
+		<div th:replace="fragments::pagination('/users', 'users')"></div>
 		
 		<div th:replace="model_fragments :: confirm_modal"/>
 
