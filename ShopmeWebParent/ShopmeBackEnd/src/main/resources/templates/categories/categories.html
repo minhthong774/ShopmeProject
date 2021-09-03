@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeLeaf.org">
-  <head th:replace="fragments::page_head('Manage - Categories')"> </head>
+  <head th:replace="fragments::page_head('Manage - Categories', 'none')"> </head>
   <body>
     <div class="container-fluid">
       <div th:replace="navigation::menu"></div>
@@ -19,19 +19,18 @@
 
       <div th:replace="fragments :: search_form_and_message('/categories/page/1')"></div>
 
-      <div class="full-details">
+      <div class="full-details table-responsive-xl">
         <table
           class="
-            table table-bordered table-striped table-hover table-responsive-xl
+            table table-bordered table-striped table-hover
           "
         >
           <thead class="thead-dark">
             <tr>
               <th>ID</th>
               <th>Photos</th>
-
               <th>
-                <th th:replace="fragments :: column_link('/categories', 'id', 'Category Name', 'none')"/>
+                <th th:replace="fragments :: column_link('/categories', 'name', 'Category Name', 'tag')"/>
               </th>
               <th class="hideable-column">Alias</th>
 
