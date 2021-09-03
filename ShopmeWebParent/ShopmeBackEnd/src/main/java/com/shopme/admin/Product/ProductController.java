@@ -53,10 +53,13 @@ public class ProductController {
         Product product, 
         RedirectAttributes ra,
         @RequestParam("fileImage") MultipartFile mainImageMultipart,
-        @RequestParam("extraImage") MultipartFile[] extraImageMultiparts
+        @RequestParam("extraImage") MultipartFile[] extraImageMultiparts,
+        @RequestParam(name = "detailNames", required = false) String[] detailNames,
+        @RequestParam(name = "detailValues", required = false) String[] detailValues
     ) throws IOException{
         setMainImageName(mainImageMultipart, product);
         setExtraImageNames(extraImageMultiparts, product);
+        setProductDetails(detailNames, detailValues, product);
 
         Product savedProduct = productService.save(product);
 
@@ -65,6 +68,19 @@ public class ProductController {
         ra.addFlashAttribute("message", "The product has been saved successfully");
 
         return "redirect:/products";
+    }
+
+    private void setProductDetails(String[] detailNames, String[] detailValues, Product product) {
+        if(detailNames == null || detailNames.length == 0) return;
+
+        for(int count = 0; count < detailNames.length; count++){
+            String name =  detailNames[count];
+            String value = detailValues[count];
+
+            if(!name.isEmpty() && !value.isEmpty()){
+                product.addDetail(name, value);
+            }
+        }
     }
 
     private void saveUploadedImages(MultipartFile mainImageMultipart, MultipartFile[] extraImageMultiparts,
@@ -141,5 +157,28 @@ public class ProductController {
         }
 
         return "redirect:/products";
+    }
+
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable("id") Integer id, Model model, 
+    RedirectAttributes ra){
+        try{
+            Product product = productService.get(id);
+            List<Brand> listBrands = brandService.listAll();
+            Integer numberOfExistingExtraImages = product.getImages().size();
+
+            model.addAttribute("product", product);
+            model.addAttribute("listBrands", listBrands);
+            model.addAttribute("numberOfExistingExtraImages", numberOfExistingExtraImages);
+            model.addAttribute("pageTitle", "Edit Product (ID: " + id + ")");
+
+
+            return "products/product_form";
+        } catch( ProductNotFoundException ex){
+            ra.addFlashAttribute("message", ex.getMessage());
+
+            return "redirect:/products";
+        }
+
     }
 }
