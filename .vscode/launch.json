@@ -9,6 +9,26 @@
       "mainClass": "com.shopme.admin.ShopmeBackEndApplication",
       "projectName": "ShopmeBackEnd",
       "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ShopmeFrontEndApplication<ShopmeFrontEnd>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.shopme.site.ShopmeFrontEndApplication",
+      "projectName": "ShopmeFrontEnd",
+      "args": ""
+    },
+    {
+      "type": "java",
+      "name": "Spring Boot-ShopmeFrontEndApplication<ShopmeFrontEnd>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "mainClass": "com.shopme.ShopmeFrontEndApplication",
+      "projectName": "ShopmeFrontEnd",
+      "args": ""
     }
   ]
 }
