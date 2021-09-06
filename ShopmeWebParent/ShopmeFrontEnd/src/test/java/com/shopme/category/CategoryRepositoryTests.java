@@ -3,6 +3,7 @@ package com.shopme.category;
 import java.util.List;
 
 import com.shopme.common.entity.Category;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,13 @@ public class CategoryRepositoryTests {
         categories.forEach(category->{
             System.out.println(category.getName() + " (" + category.isEnabled() + ")");
         });
+    }
+
+    @Test
+    public void testFindCategoryByAlias(){
+        String alias = "electronics";
+        Category category = repo.findByAliasEnabled(alias);
+
+        assertThat(category).isNotNull();
     }
 }

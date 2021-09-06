@@ -10,6 +10,7 @@ import com.shopme.admin.security.ShopmeUserDetails;
 import com.shopme.common.entity.Brand;
 import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
+import com.shopme.common.exception.ProductNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
