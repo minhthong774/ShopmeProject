@@ -1,8 +1,5 @@
 package com.shopme.product;
 
-import java.util.List;
-
-import com.shopme.common.entity.Category;
 import com.shopme.common.entity.Product;
 
 import static org.assertj.core.api.Assertions.assertThat;
