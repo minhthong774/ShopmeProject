@@ -31,7 +31,7 @@ public class SettingFilter implements Filter {
          || url.endsWith(".png") || url.endsWith(".jpg")){
             chain.doFilter(request, response);
             return;
-        }
+        } 
         List<Setting> generalSettings = service.getGeneralSettings();
 
         generalSettings.forEach(setting->{

@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 public class SettingController {
@@ -87,4 +89,31 @@ public class SettingController {
         }
         service.saveAll(listSettings);
     }
+
+    @PostMapping("/settings/save_mail_server")
+    public String saveMailServerSettings(
+        HttpServletRequest request,
+        RedirectAttributes ra
+    ){
+        List<Setting> mailServerSettings = service.getMailServerSettings();
+        updateSettingValuesFromForm(request, mailServerSettings);
+
+        ra.addFlashAttribute("message", "Mail server settings have been saved");
+
+        return "redirect:/settings";
+    }
+
+    @PostMapping("/settings/save_mail_templates")
+    public String saveMailTemplateSettings(
+        HttpServletRequest request,
+        RedirectAttributes ra
+    ){
+        List<Setting> mailTemplateSettings = service.getMailTemplateSettings();
+        updateSettingValuesFromForm(request, mailTemplateSettings);
+
+        ra.addFlashAttribute("message", "Mail templates settings have been saved");
+
+        return "redirect:/settings";
+    }
+    
 }
